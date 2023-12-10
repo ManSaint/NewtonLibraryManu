@@ -303,7 +303,7 @@ internal class Program
             Console.WriteLine("\n-* Loaned books *-\n");
 
             var loanedBooks = loanCard.LoanDetails
-                .Where(ld => ld.Returned == null) // Filter out returned books
+                .Where(ld => ld.Returned == null)
                 .Select(ld => ld.Book)
                 .ToList();
 
@@ -312,41 +312,35 @@ internal class Program
                 Console.WriteLine($"{item.Id} - {item.Details.Title}");
             }
 
-            Console.Write("\nChoose a book to return by entering it's ID: ");
+            Console.Write("\nChoose a book to return by entering its ID: ");
             var bookIdToReturn = Console.ReadLine().GetInt("Enter book ID");
 
-            var bookToReturn = context.Books
-                .Include(b => b.Details)
-                .FirstOrDefault(b => b.Id == bookIdToReturn);
+            var loanDetailToReturn = context.LoanDetails
+                .Include(ld => ld.Book)
+                .ThenInclude(b => b.Details)
+                .FirstOrDefault(ld => ld.BookId == bookIdToReturn && ld.LoanCardId == loanCard.Id);
 
-            if (bookToReturn != null)
+            if (loanDetailToReturn != null)
             {
-                var loanDetailToReturn = context.LoanDetails
-                    .FirstOrDefault(ld => ld.BookId == bookIdToReturn && ld.LoanCardId == loanCard.Id);
+                loanDetailToReturn.Returned = DateTime.Now;
 
-                if (loanDetailToReturn != null)
-                {
-                    loanDetailToReturn.Returned = DateTime.Now;
-                    context.SaveChanges();
+                loanDetailToReturn.Book.IsAvailable = true;
 
-                    Console.WriteLine($"\nBook '{bookToReturn.Details.Title}' has been returned.");
+                context.SaveChanges();
 
-                    loanedBooks = loanCard.LoanDetails
-                        .Where(ld => ld.Returned == null)
-                        .Select(ld => ld.Book)
-                        .ToList();
-                }
-                else
-                {
-                    Console.WriteLine("Invalid book ID or the book has already been returned.");
-                }
+                Console.WriteLine($"\nBook '{loanDetailToReturn.Book.Details.Title}' has been returned");
+
+                loanedBooks = loanCard.LoanDetails
+                    .Where(ld => ld.Returned == null)
+                    .Select(ld => ld.Book)
+                    .ToList();
             }
             else
             {
-                Console.WriteLine("Invalid book ID.");
+                Console.WriteLine("Choose a number in the list");
             }
 
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine("\nPress any key to continue");
             Console.ReadKey();
         }
     }

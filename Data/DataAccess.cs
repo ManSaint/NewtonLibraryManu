@@ -51,9 +51,9 @@ internal class DataAccess
             bookDetail5.Authors = new List<Author>() { author6 };
 
             LoanCard loanCard1 = new LoanCard();
-            loanCard1.FirstName = "Manu";
-            loanCard1.LastName = "St. Hill";
-            loanCard1.LoanCardPin = 2580;
+            loanCard1.FirstName = "Huey";
+            loanCard1.LastName = "Freeman";
+            loanCard1.LoanCardPin = 0000;
 
             Book book1 = new Book();
             book1.Details = bookDetail1;
@@ -75,16 +75,10 @@ internal class DataAccess
             book5.Details = bookDetail5;
             book5.IsAvailable = true;
 
-            LoanDetail loanDetail1 = new LoanDetail();
-            loanDetail1.LoanCard = loanCard1;
-            loanDetail1.Book = book1;
-
             context.BookDetails.AddRange(bookDetail1, bookDetail2, bookDetail3, bookDetail4, bookDetail5);
             context.LoanCards.Add(loanCard1);
             context.Books.AddRange(book1, book2, book3, book4, book5);
-            context.LoanDetails.Add(loanDetail1);
             context.SaveChanges();
         }
     }
 }
-
