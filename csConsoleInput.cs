@@ -23,7 +23,7 @@ public static class csConsoleInput
         string sInput;
         do
         {
-            Console.WriteLine($"{question} (between {minInt} and {maxInt} or Q to quit)?");
+            Console.Write($"{question} (between {minInt} and {maxInt}, Q to quit): ");
             sInput = Console.ReadLine();
             if (int.TryParse(sInput, out answer) && answer >= minInt && answer <= maxInt)
             {
@@ -31,7 +31,7 @@ public static class csConsoleInput
             }
             else if (sInput != "Q" && sInput != "q")
             {
-                Console.WriteLine("Wrong input, please try again.");
+                Console.WriteLine("Wrong input, please try again\n");
             }
         }
         while ((sInput != "Q" && sInput != "q"));
