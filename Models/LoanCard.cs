@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NewtonLibraryManu.Models;
 
-namespace NewtonLibraryManu.Models
+internal class LoanCard
 {
-    internal class LoanCard
-    {
-    }
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int LoanCardPin { get; set; }
+    public ICollection<LoanDetail> LoanDetails { get; set; } = new List<LoanDetail>();
 }

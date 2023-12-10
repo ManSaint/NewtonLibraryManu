@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NewtonLibraryManu.Models;
 
-namespace NewtonLibraryManu.Models
+internal class Book
 {
-    internal class Book
-    {
-    }
+    public int Id { get; set; }
+    public string DetailsISBN { get; set; }
+    public bool IsAvailable { get; set; }
+    public BookDetail Details { get; set; }
+    public ICollection<LoanDetail> LoanDetails { get; set; } = new List<LoanDetail>();
 }
